@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Window - Tab Yanker</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="window-selector.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Select Destination Window</h2>
+    </div>
+    <div class="content">
+      <div id="loading" class="loading">
+        Loading available windows...
+      </div>
+      <div id="window-selection" style="display: none;">
+        <div class="message">
+          Please select a window to un-yank the tab to:
+          <div class="shortcut-hint">
+            Use <kbd>↑</kbd> <kbd>↓</kbd> and <kbd>Enter</kbd>, or press <kbd>1</kbd>-<kbd>9</kbd>. Press <kbd>Esc</kbd> to cancel.
+          </div>
+        </div>
+        <div id="windows-list" class="windows-list"></div>
+        <div class="actions">
+          <button id="cancel-selection" class="btn btn-cancel">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="window-selector.js"></script>
+</body>
+</html>

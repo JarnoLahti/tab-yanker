@@ -1,0 +1,125 @@
+body {
+  width: 350px;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  background:
+    linear-gradient(180deg, rgba(224, 225, 221, 0.94) 0%, rgba(224, 225, 221, 1) 100%);
+  color: var(--color-text);
+}
+
+.container {
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-panel);
+  margin: 16px;
+  box-shadow: var(--color-shadow);
+  overflow: hidden;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--color-accent-strong) 0%, var(--color-accent) 100%);
+  color: var(--color-surface-strong);
+  padding: 16px;
+  text-align: center;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: var(--font-display);
+}
+
+.content {
+  padding: 16px;
+}
+
+.message {
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.shortcut-hint {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--color-text-soft);
+}
+
+.windows-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.window-item {
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 16px rgba(13, 27, 42, 0.05);
+}
+
+.window-item:hover {
+  border-color: var(--color-border-strong);
+  background: rgba(119, 141, 169, 0.12);
+  box-shadow: var(--color-shadow-soft);
+}
+
+.window-item.is-selected {
+  border-color: var(--color-border-strong);
+  background: rgba(119, 141, 169, 0.14);
+  box-shadow: 0 0 0 2px rgba(119, 141, 169, 0.26), var(--color-shadow-soft);
+}
+
+.window-item:focus {
+  outline: none;
+}
+
+.window-info {
+  flex: 1;
+}
+
+.window-title {
+  font-weight: 500;
+  color: var(--color-text);
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.window-details {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.btn {
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.btn-cancel {
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border-strong);
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: var(--color-text-muted);
+}

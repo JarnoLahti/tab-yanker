@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Tab Yanker</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="welcome.css">
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <p class="eyebrow">Tab Yanker Installed</p>
+      <h1>Check your shortcuts.</h1>
+      <p class="lede">Open Brave shortcuts, confirm following shortcuts, then start yanking tabs.</p>
+
+      <div class="shortcut-list">
+        <div class="shortcut-row">
+          <span class="shortcut-name">Yank current tab</span>
+          <span class="shortcut-keys"><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>Y</kbd></span>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-name">Un-yank current tab</span>
+          <span class="shortcut-keys"><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>U</kbd></span>
+        </div>
+        <p class="note">If Brave does not assign the shortcuts automatically, set them manually in <span class="mono">brave://extensions/shortcuts</span>.</p>
+      </div>
+
+      <div class="hero-actions">
+        <button id="copy-shortcuts-url" class="btn btn-primary">Copy Brave shortcuts URL</button>
+        <button id="dismiss-page" class="btn btn-secondary">Close this page</button>
+      </div>
+      <p id="copy-feedback" class="copy-feedback" aria-live="polite"></p>
+      <div class="mini-grid">
+        <div class="mini-card">
+          <h2>How to use</h2>
+          <ul class="feature-list">
+            <li>Press <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Y</kbd> to yank the active tab into a new window.</li>
+            <li>Press <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>U</kbd> to un-yank it back or choose a target window.</li>
+            <li>If only one valid target window exists, Tab Yanker moves the tab automatically.</li>
+          </ul>
+        </div>
+
+        <div class="mini-card">
+          <h2>Selector keys</h2>
+          <div class="selector-shortcuts">
+            <span><kbd>↑</kbd> <kbd>↓</kbd> Move</span>
+            <span><kbd>Enter</kbd> Select</span>
+            <span><kbd>1</kbd>-<kbd>9</kbd> Jump</span>
+            <span><kbd>Esc</kbd> Cancel</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="welcome.js"></script>
+</body>
+</html>

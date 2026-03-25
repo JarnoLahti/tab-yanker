@@ -1,0 +1,56 @@
+{
+  "manifest_version": 3,
+  "name": "Tab Yanker - Multi-Monitor Tab Management",
+  "version": "0.0.1",
+  "description": "Yank tabs into new windows and un-yank them back across multi-monitor workflows",
+  
+  "permissions": [
+    "tabs",
+    "storage",
+    "notifications"
+  ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Tab Yanker",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  
+  "commands": {
+    "yank-active-tab": {
+      "suggested_key": {
+        "default": "Alt+Shift+Y"
+      },
+      "description": "Yank the current tab into a new window"
+    },
+    "unyank-active-tab": {
+      "suggested_key": {
+        "default": "Alt+Shift+U"
+      },
+      "description": "Un-yank the current tab to its original window, or choose another window"
+    }
+  },
+  
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["window-selector.html", "window-selector.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

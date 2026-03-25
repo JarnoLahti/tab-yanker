@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tab Yanker</title>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>Tab Yanker</h1>
+      <p class="subtitle">Multi-Monitor Workflow Tab Management</p>
+    </header>
+
+    <main>
+      <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <span>Loading yanked tabs...</span>
+      </div>
+
+      <div id="no-tabs" class="empty-state" style="display: none;">
+        <h3>No Yanked Tabs</h3>
+        <p>Yank a tab into a new window to see it here. You can then un-yank it later.</p>
+        <button id="yank-this-tab" class="btn btn-primary">Yank this tab</button>
+      </div>
+
+      <div id="tabs-list" class="tabs-container" style="display: none;">
+        <div class="section-header">
+          <h3>Yanked Tabs</h3>
+          <button id="unyank-all" class="btn btn-secondary">Un-yank All</button>
+        </div>
+        <div id="tabs" class="tabs"></div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="shortcuts">
+        <div class="shortcut">
+          <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>Y</kbd> <span>Yank active tab into a new window</span>
+        </div>
+        <div class="shortcut">
+          <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>U</kbd> <span>Un-yank or choose a target window</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>

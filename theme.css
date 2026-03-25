@@ -1,0 +1,89 @@
+/* Shared theme tokens for popup and onboarding pages.
+   Change the five base colors here to reskin both views. */
+:root {
+  color-scheme: light;
+
+  --palette-1: #0d1b2a;
+  --palette-2: #1b263b;
+  --palette-3: #415a77;
+  --palette-4: #778da9;
+  --palette-5: #e0e1dd;
+
+  --font-sans: 'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+
+  --color-bg: var(--palette-5);
+  --color-surface: #f4f5f1;
+  --color-surface-strong: #ffffff;
+  --color-panel: rgba(255, 255, 255, 0.78);
+  --color-text: var(--palette-1);
+  --color-text-muted: rgba(13, 27, 42, 0.72);
+  --color-text-soft: rgba(13, 27, 42, 0.54);
+  --color-border: rgba(27, 38, 59, 0.16);
+  --color-border-strong: rgba(65, 90, 119, 0.34);
+  --color-accent: var(--palette-3);
+  --color-accent-strong: var(--palette-2);
+  --color-accent-soft: rgba(119, 141, 169, 0.18);
+  --color-tip-bg: rgba(119, 141, 169, 0.12);
+  --color-tip-border: rgba(65, 90, 119, 0.26);
+  --color-shadow: 0 16px 40px rgba(13, 27, 42, 0.14);
+  --color-shadow-soft: 0 8px 22px rgba(13, 27, 42, 0.10);
+
+  --radius-panel: 22px;
+  --radius-card: 16px;
+  --radius-control: 999px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--color-text);
+}
+
+.btn {
+  border: 0;
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  font-family: var(--font-display);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-surface-strong);
+  box-shadow: var(--color-shadow-soft);
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-strong);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border-strong);
+}
+
+kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface-strong);
+  box-shadow: inset 0 -2px 0 rgba(13, 27, 42, 0.08);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1;
+  vertical-align: middle;
+}
