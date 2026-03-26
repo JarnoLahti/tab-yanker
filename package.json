@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "clean": "shx rm -rf dist",
-    "build:ts": "tsc -p tsconfig.json",
+    "build:ts": "babel src --out-dir dist --extensions \".ts,.tsx\"",
     "build:assets": "shx mkdir -p dist/icons && shx cp manifest.json dist/ && shx cp src/*.html dist/ && shx cp src/*.css dist/ && shx cp -r src/icons/* dist/icons/",
     "build": "pnpm run clean && pnpm run build:ts && pnpm run build:assets",
     "typecheck": "tsc -p tsconfig.json --noEmit",
@@ -16,7 +16,11 @@
   "license": "ISC",
   "packageManager": "pnpm@10.13.1",
   "devDependencies": {
+    "@babel/cli": "^7.28.6",
+    "@babel/core": "^7.29.0",
+    "@babel/preset-typescript": "^7.28.5",
     "@types/chrome": "^0.1.30",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "shx": "^0.4.0",
     "typescript": "^6.0.2"
   }
