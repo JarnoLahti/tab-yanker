@@ -1,18 +1,18 @@
 // Window Selector Script for Tab Yanker Extension
 
-let currentTabId = null;
-let currentWindowId = null;
-let candidateWindows = [];
-let selectedWindowIndex = -1;
-let isSelectingWindow = false;
+let currentTabId: number | null = null;
+let currentWindowId: number | null = null;
+let candidateWindows: chrome.windows.Window[] = [];
+let selectedWindowIndex: number = -1;
+let isSelectingWindow: boolean = false;
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Get tab ID from URL parameters
   const urlParams = new URLSearchParams(window.location.search);
-  currentTabId = parseInt(urlParams.get('tabId'));
-  currentWindowId = parseInt(urlParams.get('currentWindowId'));
+  currentTabId = parseInt(urlParams.get('tabId') || '');
+  currentWindowId = parseInt(urlParams.get('currentWindowId') || '');
 
-  document.getElementById('cancel-selection').addEventListener('click', () => {
+  (document.getElementById('cancel-selection') as HTMLButtonElement).addEventListener('click', () => {
     window.close();
   });
   document.addEventListener('keydown', handleKeyboardSelection);
@@ -27,9 +27,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function loadAvailableWindows() {
-  const loading = document.getElementById('loading');
-  const windowSelection = document.getElementById('window-selection');
-  const windowsList = document.getElementById('windows-list');
+  const loading = document.getElementById('loading') as HTMLElement;
+  const windowSelection = document.getElementById('window-selection') as HTMLElement;
+  const windowsList = document.getElementById('windows-list') as HTMLElement;
   
   try {
     // Get all available windows
@@ -60,11 +60,11 @@ async function loadAvailableWindows() {
   }
 }
 
-function createWindowElement(window, index) {
-  const windowDiv = document.createElement('div');
+function createWindowElement(window: chrome.windows.Window, index: number) {
+  const windowDiv = document.createElement('div') as HTMLDivElement;
   windowDiv.className = 'window-item';
   windowDiv.tabIndex = -1;
-  windowDiv.addEventListener('click', () => selectWindow(window.id));
+  windowDiv.addEventListener('click', () => selectWindow(window.id || 0));
   
   // Get window info
   const tabCount = window.tabs ? window.tabs.length : 0;
@@ -74,7 +74,7 @@ function createWindowElement(window, index) {
   
   windowDiv.innerHTML = `
     <div class="window-info">
-      <div class="window-title">${escapeHtml(shortcutLabel + truncateText(windowTitle, 40))}</div>
+      <div class="window-title">${escapeHtml(shortcutLabel + truncateText(windowTitle || 'Untitled Window', 40))}</div>
       <div class="window-details">Window ${window.id} • ${tabCount} tab${tabCount !== 1 ? 's' : ''}</div>
     </div>
   `;
@@ -82,7 +82,7 @@ function createWindowElement(window, index) {
   return windowDiv;
 }
 
-function handleKeyboardSelection(event) {
+function handleKeyboardSelection(event : KeyboardEvent) {
   if (event.key === 'Escape') {
     event.preventDefault();
     window.close();
@@ -104,10 +104,12 @@ function handleKeyboardSelection(event) {
     setSelectedWindowIndex((selectedWindowIndex - 1 + candidateWindows.length) % candidateWindows.length);
     return;
   }
-
   if (event.key === 'Enter' && selectedWindowIndex >= 0) {
     event.preventDefault();
-    selectWindow(candidateWindows[selectedWindowIndex].id);
+    const candidateWindow = candidateWindows[selectedWindowIndex];
+    if (candidateWindow && candidateWindow.id) {
+      selectWindow(candidateWindow.id);
+    }
     return;
   }
 
@@ -115,15 +117,18 @@ function handleKeyboardSelection(event) {
     const quickSelectIndex = Number(event.key) - 1;
     if (quickSelectIndex < candidateWindows.length) {
       event.preventDefault();
-      selectWindow(candidateWindows[quickSelectIndex].id);
+      const candidateWindow = candidateWindows[quickSelectIndex];
+      if (candidateWindow && candidateWindow.id) {
+        selectWindow(candidateWindow.id);
+      }
     }
   }
 }
 
-function setSelectedWindowIndex(index) {
+function setSelectedWindowIndex(index: number) {
   selectedWindowIndex = index;
 
-  document.querySelectorAll('.window-item').forEach((windowElement, itemIndex) => {
+  document.querySelectorAll<HTMLDivElement>('.window-item').forEach((windowElement, itemIndex) => {
     const isSelected = itemIndex === selectedWindowIndex;
     windowElement.classList.toggle('is-selected', isSelected);
 
@@ -134,7 +139,7 @@ function setSelectedWindowIndex(index) {
   });
 }
 
-async function selectWindow(windowId) {
+async function selectWindow(windowId : number): Promise<void> {
   if (isSelectingWindow) {
     return;
   }
@@ -164,12 +169,12 @@ async function selectWindow(windowId) {
   }
 }
 
-function truncateText(text, maxLength) {
+function truncateText(text: string, maxLength: number): string {
   if (!text || text.length <= maxLength) return text || 'Untitled';
   return text.substring(0, maxLength) + '...';
 }
 
-function escapeHtml(text) {
+function escapeHtml(text: string): string {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;

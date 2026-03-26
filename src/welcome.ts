@@ -1,9 +1,9 @@
 const BRAVE_SHORTCUTS_URL = 'brave://extensions/shortcuts';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const copyButton = document.getElementById('copy-shortcuts-url');
-  const dismissButton = document.getElementById('dismiss-page');
-  const feedback = document.getElementById('copy-feedback');
+  const copyButton = document.getElementById('copy-shortcuts-url') as HTMLButtonElement;
+  const dismissButton = document.getElementById('dismiss-page') as HTMLButtonElement;
+  const feedback = document.getElementById('copy-feedback') as HTMLElement;
 
   copyButton.addEventListener('click', async () => {
     try {

@@ -1,0 +1,23 @@
+{
+  "name": "tab-yanker",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "clean": "shx rm -rf dist",
+    "build:ts": "tsc -p tsconfig.json",
+    "build:assets": "shx mkdir -p dist/icons && shx cp manifest.json dist/ && shx cp src/*.html dist/ && shx cp src/*.css dist/ && shx cp -r src/icons/* dist/icons/",
+    "build": "pnpm run clean && pnpm run build:ts && pnpm run build:assets",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "watch": "tsc -p tsconfig.json --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.13.1",
+  "devDependencies": {
+    "@types/chrome": "^0.1.30",
+    "shx": "^0.4.0",
+    "typescript": "^6.0.2"
+  }
+}

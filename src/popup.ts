@@ -1,6 +1,8 @@
 // Popup Script for Tab Yanker Extension
 // Handles the popup UI and interaction with the service worker
 
+import { DetachData } from "./types/types";
+
 const FALLBACK_FAVICON = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiBmaWxsPSIjRjNGM0YzIi8+CjxwYXRoIGQ9Ik04IDJMOC4zNTM1NSAyLjM1MzU1TDEzIDdIMTBWMTBIMTNMMTMuMzUzNiAxMC4zNTM2TDggMTVMMi42NDY0NSAxMC4zNTM2TDMgMTBINlY3SDNMNS42NDY0NSAyLjM1MzU1TDggMloiIGZpbGw9IiNDQ0NDQ0MiLz4KPC9zdmc+';
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -8,13 +10,32 @@ document.addEventListener('DOMContentLoaded', async () => {
   await updateYankButtonState();
   
   // Set up event listeners
-  document.getElementById('unyank-all').addEventListener('click', unyankAllTabs);
-  document.getElementById('yank-this-tab').addEventListener('click', handleYankThisTab);
-  document.getElementById('tabs').addEventListener('click', handleTabActions);
+  const unyankAllButton = document.getElementById('unyank-all');
+  if (unyankAllButton) {
+    unyankAllButton.addEventListener('click', unyankAllTabs);
+  } else {
+    console.error('Un-yank all button not found in DOM');
+  }
+  const yankThisTabButton = document.getElementById('yank-this-tab');
+  if (yankThisTabButton) {
+    yankThisTabButton.addEventListener('click', handleYankThisTab);
+  } else {
+    console.error('Yank this tab button not found in DOM');
+  }
+  const tabsContainer = document.getElementById('tabs');
+  if (tabsContainer) {
+    tabsContainer.addEventListener('click', handleTabActions);
+  } else {
+    console.error('Tabs container not found in DOM');
+  }
 });
 
 async function updateYankButtonState() {
-  const button = document.getElementById('yank-this-tab');
+  const button = document.getElementById('yank-this-tab') as HTMLButtonElement;
+  if (!button) {
+    console.error('Yank this tab button not found in DOM');
+    return;
+  }
 
   try {
     const eligibility = await chrome.runtime.sendMessage({ action: 'getYankEligibility' });
@@ -31,7 +52,12 @@ async function updateYankButtonState() {
 }
 
 async function handleYankThisTab(){
-  const button = document.getElementById('yank-this-tab');
+  const button = document.getElementById('yank-this-tab') as HTMLButtonElement;
+  if (!button) {
+    console.error('Yank this tab button not found in DOM');
+    return;
+  }
+
   if (button.disabled) {
     return;
   }
@@ -57,17 +83,19 @@ async function handleYankThisTab(){
 
 // Load and display all detached tabs
 async function loadDetachedTabs() {
-  const loading = document.getElementById('loading');
-  const noTabs = document.getElementById('no-tabs');
-  const tabsList = document.getElementById('tabs-list');
-  const tabsContainer = document.getElementById('tabs');
+  const loading = document.getElementById('loading') as HTMLElement;
+  const noTabs = document.getElementById('no-tabs') as HTMLElement;
+  const tabsList = document.getElementById('tabs-list') as HTMLElement;
+  const tabsContainer = document.getElementById('tabs') as HTMLElement;
   
   try {
     // Get detached tabs from service worker
     const detachedTabs = await getDetachedTabs();
     
     // Hide loading
-    loading.style.display = 'none';
+    if (loading) {
+      loading.style.display = 'none';
+    }
     
     if (detachedTabs.length === 0) {
       // Show empty state
@@ -92,7 +120,7 @@ async function loadDetachedTabs() {
 }
 
 // Get detached tabs from service worker
-async function getDetachedTabs() {
+async function getDetachedTabs() : Promise<DetachData[]> {
   return new Promise((resolve) => {
     chrome.runtime.sendMessage({ action: 'getDetachedTabs' }, (response) => {
       resolve(response || []);
@@ -101,21 +129,21 @@ async function getDetachedTabs() {
 }
 
 // Create HTML element for a single tab
-function createTabElement(tabData) {
+function createTabElement(tabData : DetachData) {
   const tabElement = document.createElement('div');
   tabElement.className = 'tab-item';
-  tabElement.setAttribute('data-tab-id', tabData.tabId);
+  tabElement.setAttribute('data-tab-id', `${tabData.tabId}`);
   
   const detachedTime = formatTimeAgo(tabData.detachedAt);
   
   tabElement.innerHTML = `
-    <img class="tab-favicon" src="chrome://favicon/${tabData.currentUrl || tabData.tabUrl}">
+    <img class="tab-favicon" src="chrome://favicon/${tabData.tabUrl}">
     <div class="tab-info">
-      <div class="tab-title" title="${escapeHtml(tabData.currentTitle || tabData.tabTitle || 'Unknown')}">
-        ${escapeHtml(truncateText(tabData.currentTitle || tabData.tabTitle || 'Unknown', 35))}
+      <div class="tab-title" title="${escapeHtml(tabData.tabTitle || 'Unknown')}">
+        ${escapeHtml(truncateText(tabData.tabTitle || 'Unknown', 35))}
       </div>
-      <div class="tab-url" title="${escapeHtml(tabData.currentUrl || tabData.tabUrl)}">
-        ${escapeHtml(truncateText(tabData.currentUrl || tabData.tabUrl, 40))}
+      <div class="tab-url" title="${escapeHtml(tabData.tabUrl)}">
+        ${escapeHtml(truncateText(tabData.tabUrl, 40))}
       </div>
       <div class="tab-meta">Detached ${detachedTime}</div>
     </div>
@@ -126,23 +154,29 @@ function createTabElement(tabData) {
     </div>
   `;
 
-  const favicon = tabElement.querySelector('.tab-favicon');
-  favicon.addEventListener('error', () => {
-    favicon.src = FALLBACK_FAVICON;
-  }, { once: true });
+  const favicon = tabElement.querySelector('.tab-favicon') as HTMLImageElement;
+  if(favicon) {
+    favicon.addEventListener('error', () => {
+      favicon.src = FALLBACK_FAVICON;
+    }, { once: true });
+  }
   
   return tabElement;
 }
 
-function handleTabActions(event) {
-  const button = event.target.closest('[data-action="unyank-single"]');
+function handleTabActions(event : MouseEvent) {
+  const button = (event.target as HTMLElement).closest('[data-action="unyank-single"]') as HTMLButtonElement;
   if (!button) {
     return;
   }
-
-  const tabId = Number(button.dataset.tabId);
+  const tabIdStr = button.dataset["tabId"];
+  if (!tabIdStr) {
+    console.error('Tab ID not found for un-yank action');
+    return;
+  }
+  const tabId = Number(tabIdStr);
   if (!Number.isInteger(tabId)) {
-    console.error('Invalid tab ID for un-yank action:', button.dataset.tabId);
+    console.error('Invalid tab ID for un-yank action:', tabIdStr);
     return;
   }
 
@@ -150,9 +184,9 @@ function handleTabActions(event) {
 }
 
 // Un-yank a single tab
-async function unyankSingleTab(tabId) {
+async function unyankSingleTab(tabId: number) {
   try {
-    const button = document.querySelector(`[data-tab-id="${tabId}"] .btn-primary`);
+    const button = document.querySelector(`[data-tab-id="${tabId}"] .btn-primary`) as HTMLButtonElement;
     const originalText = button.textContent;
     button.textContent = 'Un-yanking...';
     button.disabled = true;
@@ -164,7 +198,7 @@ async function unyankSingleTab(tabId) {
     
     if (success) {
       // Remove the tab from UI
-      const tabElement = document.querySelector(`[data-tab-id="${tabId}"]`);
+      const tabElement = document.querySelector(`[data-tab-id="${tabId}"]`) as HTMLElement;
       if (tabElement) {
         tabElement.style.animation = 'fadeOut 0.3s ease-out';
         setTimeout(() => {
@@ -184,8 +218,13 @@ async function unyankSingleTab(tabId) {
 }
 
 // Un-yank all tabs
-async function unyankAllTabs() {
-  const button = document.getElementById('unyank-all');
+async function unyankAllTabs() : Promise<void> {
+  const button = document.getElementById('unyank-all') as HTMLButtonElement;
+  if (!button) {
+    console.error('Un-yank all button not found');
+    return;
+  }
+
   const originalText = button.textContent;
   button.textContent = 'Un-yanking...';
   button.disabled = true;
@@ -215,9 +254,9 @@ async function unyankAllTabs() {
 
 // Check if tabs container is empty and update UI
 function checkIfEmpty() {
-  const tabsContainer = document.getElementById('tabs');
-  const noTabs = document.getElementById('no-tabs');
-  const tabsList = document.getElementById('tabs-list');
+  const tabsContainer = document.getElementById('tabs') as HTMLElement;
+  const noTabs = document.getElementById('no-tabs') as HTMLElement;
+  const tabsList = document.getElementById('tabs-list') as HTMLElement;
   
   if (tabsContainer.children.length === 0) {
     noTabs.style.display = 'block';
@@ -226,7 +265,7 @@ function checkIfEmpty() {
 }
 
 // Utility: Format time ago
-function formatTimeAgo(timestamp) {
+function formatTimeAgo(timestamp: number) {
   const now = Date.now();
   const seconds = Math.floor((now - timestamp) / 1000);
   
@@ -237,13 +276,13 @@ function formatTimeAgo(timestamp) {
 }
 
 // Utility: Truncate text
-function truncateText(text, maxLength) {
+function truncateText(text: string, maxLength: number) {
   if (text.length <= maxLength) return text;
   return text.substring(0, maxLength) + '...';
 }
 
 // Utility: Escape HTML
-function escapeHtml(text) {
+function escapeHtml(text: string) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
