@@ -139,7 +139,7 @@ async function yankTab(tabId: number): Promise<boolean> {
 
   const eligibility = await getYankEligibility(tabId);
   if (!eligibility.allowed) {
-    showNotification(eligibility.reason, 'info');
+    showNotification(eligibility.reason, 'error');
     return false;
   }
   try {
@@ -280,7 +280,7 @@ async function handleMissingOriginalWindow(tabId: number, currentWindowId: numbe
 function showNotification(message: string, type: 'info' | 'success' | 'error' = 'info') {
   const iconUrl = type === 'error' ? 'icons/icon-error.png' :
     type === 'success' ? 'icons/icon-success.png' :
-      'icons/icon32.png';
+      'icons/icon-info.png';
 
   chrome.notifications.create({
     type: 'basic',
