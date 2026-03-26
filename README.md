@@ -2,6 +2,10 @@
 
 A Browser extension for yanking tabs into new windows and un-yanking them back during multi-monitor workflows.
 
+
+https://github.com/user-attachments/assets/87e16ac1-2d4d-414b-af87-511c471a2f9d
+
+
 ## Features
 
 - **Tab Tracking**: Tracks tabs when they are **yanked** from their original window
