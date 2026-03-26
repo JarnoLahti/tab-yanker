@@ -130,12 +130,24 @@ When the original window no longer exists, or when you use the shortcut on a tab
 ### File Structure
 ```
 tab-yanker/
-├── manifest.json          # Extension manifest (V3)
-├── background.js          # Service worker with core logic
-├── popup.html/js/css      # Extension popup interface
-├── window-selector.html/js # Window selection dialog
-├── icons/                 # Extension icons
-└── README.md             # This file
+├── manifest.json           # Root manifest copied into dist during build
+├── package.json            # Build scripts and development dependencies
+├── tsconfig.json           # TypeScript configuration
+├── README.md               # This file
+└── src/                    # TypeScript source and static assets
+   ├── background.ts       # Service worker with core logic
+   ├── popup.ts            # Extension popup logic
+   ├── popup.html
+   ├── popup.css
+   ├── welcome.ts          # Onboarding page logic
+   ├── welcome.html
+   ├── welcome.css
+   ├── window-selector.ts  # Window selection dialog logic
+   ├── window-selector.html
+   ├── window-selector.css
+   ├── theme.css           # Shared extension styles
+   ├── icons/              # Source icons copied into dist
+   └── types/              # Project type declarations
 ```
 
 ### Key APIs Used
