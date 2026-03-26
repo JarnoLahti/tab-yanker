@@ -164,7 +164,3 @@ tab-yanker/
 ## License
 
 MIT License - Feel free to modify and distribute.
-
----
-
-**Tab Yanker** - Making multi-monitor workflows more efficient! 🚀
