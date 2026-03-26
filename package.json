@@ -1,15 +1,15 @@
 {
   "name": "tab-yanker",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "scripts": {
     "clean": "shx rm -rf dist",
     "build:ts": "babel src --out-dir dist --extensions \".ts,.tsx\"",
     "build:assets": "shx mkdir -p dist/icons && shx cp manifest.json dist/ && shx cp src/*.html dist/ && shx cp src/*.css dist/ && shx cp -r src/icons/* dist/icons/",
     "build": "pnpm run clean && pnpm run build:ts && pnpm run build:assets",
+    "build:prod": "cross-env NODE_ENV=production pnpm run build",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "watch": "tsc -p tsconfig.json --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "tsc -p tsconfig.json --watch"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +21,7 @@
     "@babel/preset-typescript": "^7.28.5",
     "@types/chrome": "^0.1.30",
     "babel-plugin-transform-remove-console": "^6.9.4",
+    "cross-env": "^10.1.0",
     "shx": "^0.4.0",
     "typescript": "^6.0.2"
   }
