@@ -238,7 +238,6 @@ async function unyankTab(tabId: number) {
       // Clean up storage
       await chrome.storage.session.remove(storageKey);
 
-      showNotification('Tab successfully un-yanked to original window', 'success');
       console.log(`Tab ${tabId} un-yanked to original window ${detachData.originalWindowId}`);
       return true;
 
@@ -277,10 +276,8 @@ async function handleMissingOriginalWindow(tabId: number, currentWindowId: numbe
 }
 
 // Show notification to user
-function showNotification(message: string, type: 'info' | 'success' | 'error' = 'info') {
-  const iconUrl = type === 'error' ? 'icons/icon-error.png' :
-    type === 'success' ? 'icons/icon-success.png' :
-      'icons/icon-info.png';
+function showNotification(message: string, type: 'info' | 'error' = 'info') {
+  const iconUrl = type === 'error' ? 'icons/icon-error.png' : 'icons/icon-info.png';
 
   chrome.notifications.create({
     type: 'basic',
@@ -309,7 +306,6 @@ async function unyankTabToWindow(tabId: number, targetWindowId: number): Promise
     const storageKey = STORAGE_PREFIX + tabId;
     await chrome.storage.session.remove(storageKey);
 
-    showNotification('Tab successfully un-yanked to selected window', 'success');
     console.log(`Tab ${tabId} un-yanked to window ${targetWindowId}`);
     return true;
 
