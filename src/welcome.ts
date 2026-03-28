@@ -1,4 +1,4 @@
-const BRAVE_SHORTCUTS_URL = 'brave://extensions/shortcuts';
+const SHORTCUTS_URL = 'chrome://extensions/shortcuts';
 
 document.addEventListener('DOMContentLoaded', () => {
   const copyButton = document.getElementById('copy-shortcuts-url') as HTMLButtonElement;
@@ -7,10 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   copyButton.addEventListener('click', async () => {
     try {
-      await navigator.clipboard.writeText(BRAVE_SHORTCUTS_URL);
-      feedback.textContent = 'Copied brave://extensions/shortcuts to your clipboard.';
+      await navigator.clipboard.writeText(SHORTCUTS_URL);
+      feedback.textContent = 'Copied chrome://extensions/shortcuts to your clipboard.';
     } catch (error) {
-      feedback.textContent = 'Copy failed. Open brave://extensions/shortcuts manually.';
+      feedback.textContent = 'Copy failed. Open chrome://extensions/shortcuts manually.';
     }
   });
 
